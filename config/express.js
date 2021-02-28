@@ -7,14 +7,23 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compress = require('compression');
 const methodOverride = require('method-override');
+const exphbs = require('express-handlebars');
 
 module.exports = (app, config) => {
   const env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
-  
+
+  // app.set('views', config.root + '/app/views');
+  // app.set('view engine', 'pug');
+
+  app.engine('handlebars', exphbs({
+    layoutsDir: config.root + '/app/views/layouts/',
+    defaultLayout: 'main',
+    partialsDir: [config.root + '/app/views/partials/']
+  }));
   app.set('views', config.root + '/app/views');
-  app.set('view engine', 'pug');
+  app.set('view engine', 'handlebars');
 
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));

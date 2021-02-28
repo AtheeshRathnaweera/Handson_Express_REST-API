@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const student = require('../models/student');
+const basicHelper = require('../helpers/basic');
 
 module.exports = (app) => {
     app.use('/student', router);
@@ -27,15 +27,13 @@ router.post("/save", (req, res, next) => {
     db.Student.create({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
+        email: req.body.email,
         dob: req.body.dob,
-        houseId: 1
+        password: basicHelper.getHashedPassword(req.body.password)
     }).then((student) => {
         var houseNumber = student.id % 4;
-        console.log("hpouse nu : " + houseNumber);
 
         db.House.findOne({ where: { number: houseNumber } }).then((house) => {
-            console.log(house.id);
-
             student.setHouse(house);
         }).catch(function (err) {
             return next(err);

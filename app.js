@@ -16,14 +16,14 @@ db.sequelize
       app.listen(config.port, () => {
         console.log('Express server listening on port ' + config.port);
 
-        // db.sequelize
-        //   .authenticate()
-        //   .then(function (err) {
-        //     console.log('Connection has been established successfully.');
-        //   })
-        //   .catch(function (err) {
-        //     console.log('Unable to connect to the database:', err);
-        //   });
+        db.sequelize
+          .authenticate()
+          .then(function (err) {
+            console.log('Connection has been established successfully.');
+          })
+          .catch(function (err) {
+            console.log('Unable to connect to the database:', err);
+          });
       });
     }
   }).catch((e) => {

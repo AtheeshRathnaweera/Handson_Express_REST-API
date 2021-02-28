@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: {
+                args: true,
+                msg: 'Email is already in use with another account!'
+            }
+        },
         last_name: {
             type: DataTypes.STRING,
             allowNull: false
@@ -18,14 +26,18 @@ module.exports = (sequelize, DataTypes) => {
         dob: {
             type: DataTypes.DATE,
             allowNull: false
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
-
 
     }, {
         classMethods: {
             associate: (models) => {
                 // example on how to add relations
-                Student.belongsTo(models.House, {foreignKeyConstraint: true });
+                Student.belongsTo(models.House, { foreignKeyConstraint: true });
+                Student.hasMany(models.RefreshTokens, { foreignKeyConstraint: true });
             }
         }
     });

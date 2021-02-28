@@ -11,9 +11,9 @@ const config = {
     port: process.env.PORT || 3000,
     db_name: 'studentmanagementbackend-development',
     db_user: 'root',
-    db_pw:'',
-    db_port:3308
-
+    db_pw: '',
+    db_port: 3308,
+    TOKEN_SECRET:'7bc78545b1a3923cc1e1e19523fd5c3f20b409509'
   },
 
   test: {

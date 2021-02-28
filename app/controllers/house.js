@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const house = require('../models/house');
+
+const authTokenMiddleware = require('../middlewares/authenticateAToken');
 
 module.exports = (app) => {
     app.use('/house', router);
 };
 
-router.get('/all', (req, res, next) => {
+router.get('/all', authTokenMiddleware, (req, res, next) => {
     db.House.findAll().then((houses) => {
         res.json(houses);
     }).catch(function (err) {
@@ -15,7 +16,7 @@ router.get('/all', (req, res, next) => {
     });
 });
 
-router.get('/id/:houseId', (req, res, next) => {
+router.get('/id/:houseId', authTokenMiddleware, (req, res, next) => {
     db.House.findOne({ where: { id: req.params.houseId } }).then((house) => {
         res.json(house);
     }).catch(function (err) {
@@ -23,7 +24,7 @@ router.get('/id/:houseId', (req, res, next) => {
     });
 });
 
-router.post("/save", (req, res, next) => {
+router.post("/save", authTokenMiddleware, (req, res, next) => {
     db.House.create({ name: req.body.name, number: req.body.number }).then((house) => {
         res.json(house);
     }).catch(function (err) {
@@ -31,7 +32,7 @@ router.post("/save", (req, res, next) => {
     });
 });
 
-router.put("/update", (req, res, next) => {
+router.put("/update", authTokenMiddleware, (req, res, next) => {
     db.House.update({ name: req.body.name, number: req.body.number }, {
         where: { id: req.body.id }
     }).then((result) => {
